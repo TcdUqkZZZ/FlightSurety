@@ -1,21 +1,21 @@
-pragma solidity ^0.4.25;
-
-// It's important to avoid vulnerabilities due to numeric overflow bugs
-// OpenZeppelin's SafeMath library, when used correctly, protects agains such bugs
-// More info: https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2018/november/smart-contract-insecurity-bad-arithmetic/
-
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+pragma solidity >0.8.0;
+import "./FlightSuretyData.sol";
+import "./FlightSuretyGovernance.sol";
+import "./FlightSuretyWallet.sol";
+//solidity >0.8.x integrates safe math
 
 /************************************************** */
 /* FlightSurety Smart Contract                      */
 /************************************************** */
 contract FlightSuretyApp {
-    using SafeMath for uint256; // Allow SafeMath functions to be called for all uint256 types (similar to "prototype" in Javascript)
+     // Allow SafeMath functions to be called for all uint256 types (similar to "prototype" in Javascript)
 
     /********************************************************************************************/
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
 
+    FlightSuretyData private dataContract;
+    FlightSuretyGovernance private governanceContract;
     // Flight status codees
     uint8 private constant STATUS_CODE_UNKNOWN = 0;
     uint8 private constant STATUS_CODE_ON_TIME = 10;
@@ -23,6 +23,10 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_WEATHER = 30;
     uint8 private constant STATUS_CODE_LATE_TECHNICAL = 40;
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
+
+    // Fees
+    uint256 private constant USER_REGISTRATION_FEE = 2 gwei;
+    uint256 private constant INSURANCE_FEE = 1 gwei;
 
     address private contractOwner;          // Account used to deploy contract
 
@@ -74,7 +78,7 @@ contract FlightSuretyApp {
     constructor
                                 (
                                 ) 
-                                public 
+                                 
     {
         contractOwner = msg.sender;
     }
@@ -85,10 +89,25 @@ contract FlightSuretyApp {
 
     function isOperational() 
                             public 
-                            pure 
+                            view 
                             returns(bool) 
     {
-        return true;  // Modify to call data contract's status
+        return dataContract.isOperational();  // Modify to call data contract's status
+    }
+
+    function setOperatingStatus() public returns(bool,uint){
+        require (dataContract.isRegisteredAirline(msg.sender));
+        governanceContract.voteChangeOperationalState(msg.sender);
+
+        (bool result, uint256 votes)  = governanceContract
+        .getResult(dataContract
+        .getCounter());
+
+        if (result) {
+            dataContract.flipOperational();
+        }
+        return (result, votes);
+
     }
 
     /********************************************************************************************/
@@ -101,13 +120,24 @@ contract FlightSuretyApp {
     *
     */   
     function registerAirline
-                            (   
+                            (  address airline 
                             )
                             external
-                            pure
-                            returns(bool success, uint256 votes)
-    {
-        return (success, 0);
+                            returns(bool success, uint256 _votes)
+    {   require(!dataContract.isRegisteredAirline(airline) 
+    && dataContract.isRegisteredAirline(msg.sender));
+        
+        //casts vote on governance contract, then checks result
+        governanceContract.vote(airline, msg.sender);
+        (bool result, uint256 votes)  = governanceContract
+        .getResult(dataContract
+        .getCounter());
+        if (result){
+            //if vote passed, register new airline with corresponding wallet in data contract
+            airlineWallet wallet = new FlightSuretyAirlineWallet(airline);
+            dataContract.addAirline(airline, wallet);
+        }
+        return (result, votes);
     }
 
 
@@ -116,12 +146,26 @@ contract FlightSuretyApp {
     *
     */  
     function registerFlight
-                                (
+                                (string memory _flight
                                 )
                                 external
-                                pure
+                                
     {
+        //check that msg.sender is registered airline with more than 10 funds deposited
+        myWallet wallet = dataContract.getAirlineWallet(msg.sender);
+        require(dataContract.isRegisteredAirline(msg.sender) == true &&
+                wallet.getBalance() >= 10); 
+        bytes32 key = getFlightKey(msg.sender, _flight , block.timestamp);
+        Flight memory flight = flights[key];
+        flight.isRegistered = true;
+        flight.statusCode = STATUS_CODE_UNKNOWN;
+        flight.updatedTimestamp = block.timestamp;
+        flight.airline = msg.sender;
+        flights[key] = flight;
+    }
 
+    function _getFlightKey(uint256 flightNo) private pure returns(bytes32){
+        return keccak256(abi.encode(flightNo));
     }
     
    /**
@@ -140,12 +184,88 @@ contract FlightSuretyApp {
     {
     }
 
+    /**
+    * @dev Register new user 
+    */
+    function registerUser() external payable{
+        require(!dataContract.isRegisteredUser(msg.sender), "user already registered");
+        require(msg.value > USER_REGISTRATION_FEE);
+        userWallet wallet = new FlightSuretyUserWallet(msg.sender);
+        wallet.deposit(msg.value - USER_REGISTRATION_FEE);
+        dataContract.addUser(msg.sender, wallet);
+        _fundDataContract(msg.value - USER_REGISTRATION_FEE);
+    }
+
+
+       /**
+    * @dev Buy insurance for a flight
+    *
+    */   
+    function buy
+                            (bytes32 flightKey)
+                            external
+                            payable
+    {
+            require(dataContract.isRegisteredUser(msg.sender), "user not registered");
+            require((1 ether >= msg.value) && (msg.value > INSURANCE_FEE));
+
+            userWallet wallet = dataContract.getUserWallet(msg.sender);
+            wallet.deposit(msg.value - INSURANCE_FEE);
+            wallet.insure(msg.value - INSURANCE_FEE, flightKey);
+            Flight memory flight = flights[flightKey];
+            address airline = flight.airline;
+            dataContract
+            .getAirlineWallet(airline)
+            .addInsuree(msg.sender, flightKey);
+
+            _fundDataContract(msg.value - INSURANCE_FEE);
+    }
+
+    /**
+    *  @dev Credits payouts to insurees
+    */
+    function creditInsurees
+                                (bytes32 flightKey
+                                )
+                                external        
+    { 
+        Flight memory flight = flights[flightKey];
+        require(flight.statusCode == STATUS_CODE_LATE_AIRLINE);
+        address airline = flight.airline;
+        airlineWallet Awallet = dataContract.getAirlineWallet(airline);        
+        address[] memory insurees = Awallet.getInsurees(flightKey);
+        uint256 paidOut = 0;
+        for(uint i=0; i< insurees.length; i++){
+            userWallet Uwallet = dataContract.getUserWallet(insurees[i]);
+
+            uint256 amount  = Uwallet.getInsuredFlight(flightKey) / 2 * 3;
+            
+            Uwallet.deposit(amount);
+            paidOut += amount;
+            Uwallet.clear(flightKey);
+
+        }
+        Awallet.withdraw(paidOut);
+        Awallet.clear(flightKey);
+    }
+
+    function payOut() external {
+        dataContract.pay(msg.sender);
+    }
+    
+
+    function _fundDataContract(uint256 amount) private{
+                address dataAddress = address(dataContract);
+        payable(dataAddress).transfer(amount);
+
+    }
+
 
     // Generate a request for oracles to fetch flight information
     function fetchFlightStatus
                         (
                             address airline,
-                            string flight,
+                            string memory flight,
                             uint256 timestamp                            
                         )
                         external
@@ -154,11 +274,8 @@ contract FlightSuretyApp {
 
         // Generate a unique key for storing the request
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp));
-        oracleResponses[key] = ResponseInfo({
-                                                requester: msg.sender,
-                                                isOpen: true
-                                            });
-
+        oracleResponses[key].requester = msg.sender;
+        oracleResponses[key].isOpen = true;
         emit OracleRequest(index, airline, flight, timestamp);
     } 
 
@@ -230,7 +347,7 @@ contract FlightSuretyApp {
                             )
                             view
                             external
-                            returns(uint8[3])
+                            returns(uint8[3] memory)
     {
         require(oracles[msg.sender].isRegistered, "Not registered as an oracle");
 
@@ -248,7 +365,7 @@ contract FlightSuretyApp {
                         (
                             uint8 index,
                             address airline,
-                            string flight,
+                            string memory flight,
                             uint256 timestamp,
                             uint8 statusCode
                         )
@@ -278,7 +395,7 @@ contract FlightSuretyApp {
     function getFlightKey
                         (
                             address airline,
-                            string flight,
+                            string memory flight,
                             uint256 timestamp
                         )
                         pure
@@ -294,7 +411,7 @@ contract FlightSuretyApp {
                                 address account         
                             )
                             internal
-                            returns(uint8[3])
+                            returns(uint8[3] memory)
     {
         uint8[3] memory indexes;
         indexes[0] = getRandomIndex(account);

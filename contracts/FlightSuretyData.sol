@@ -1,17 +1,34 @@
-pragma solidity ^0.4.25;
+pragma solidity >= 0.8.0;
 
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+interface myWallet {
+    function deposit(uint256) external;
+    function getBalance() external view returns(uint256);
+    function clear(bytes32) external;
+}
+interface userWallet is myWallet{
+    function insure(uint256,bytes32) external;
+    function getInsuredFlight(bytes32) external view returns (uint256);
+}
+interface airlineWallet is myWallet {
+    function addInsuree(address,bytes32) external;
+    function getInsurees(bytes32) external view returns (address[] memory);
+    function withdraw(uint256) external;
+}
+
+
 
 contract FlightSuretyData {
-    using SafeMath for uint256;
-
     /********************************************************************************************/
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
 
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
-
+    uint256 airlineCounter;
+    mapping (address => bool) registeredAirlines;
+    mapping (address => bool) registeredUsers;
+    mapping (address => airlineWallet) airlineWallets;
+    mapping (address => userWallet) userWallets;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -24,11 +41,17 @@ contract FlightSuretyData {
     constructor
                                 (
                                 ) 
-                                public 
+                                 
     {
         contractOwner = msg.sender;
+        registeredAirlines[msg.sender] = true;
+        airlineCounter = 1;
     }
 
+
+    function getCounter() public view returns (uint256) {
+        return airlineCounter;
+    }
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
     /********************************************************************************************/
@@ -55,6 +78,11 @@ contract FlightSuretyData {
         require(msg.sender == contractOwner, "Caller is not contract owner");
         _;
     }
+    
+    modifier requireRegisteredUser(address user) {
+        require(registeredUsers[user] == true, "not a registered user");
+        _;
+    }
 
     /********************************************************************************************/
     /*                                       UTILITY FUNCTIONS                                  */
@@ -73,6 +101,10 @@ contract FlightSuretyData {
         return operational;
     }
 
+    function flipOperational() public requireContractOwner {
+        operational = !operational;
+    }
+
 
     /**
     * @dev Sets contract operations on/off
@@ -89,98 +121,85 @@ contract FlightSuretyData {
         operational = mode;
     }
 
+    function isRegisteredAirline(address a) external view returns (bool) {
+        return registeredAirlines[a];
+    }
+    function getAirlineWallet(address a) external view returns (airlineWallet){
+        return airlineWallets[a];
+    }
+
+    function isRegisteredUser(address a) external view returns(bool) {
+        return registeredUsers[a];
+    }
+    function getUserWallet(address a) external view returns (userWallet) {
+        return userWallets[a];
+    }
+
+
+
+
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
 
-   /**
-    * @dev Add an airline to the registration queue
-    *      Can only be called from FlightSuretyApp contract
-    *
-    */   
-    function registerAirline
-                            (   
-                            )
-                            external
-                            pure
-    {
+
+    function addAirline(address airline, airlineWallet wallet) public requireContractOwner 
+    requireIsOperational{
+        registeredAirlines[airline] = true;
+        airlineWallets[airline] = wallet;
+        airlineCounter++;
     }
 
-
-   /**
-    * @dev Buy insurance for a flight
-    *
-    */   
-    function buy
-                            (                             
-                            )
-                            external
-                            payable
-    {
-
-    }
-
-    /**
-     *  @dev Credits payouts to insurees
-    */
-    function creditInsurees
-                                (
-                                )
-                                external
-                                pure
-    {
-    }
-    
-
-    /**
-     *  @dev Transfers eligible payout funds to insuree
-     *
-    */
-    function pay
-                            (
-                            )
-                            external
-                            pure
-    {
-    }
+    function addUser(address user, userWallet wallet) public requireContractOwner 
+    requireIsOperational{
+        registeredUsers[user] = true;
+        userWallets[user] = wallet;
+    } 
 
    /**
     * @dev Initial funding for the insurance. Unless there are too many delayed flights
     *      resulting in insurance payouts, the contract should be self-sustaining
     *
     */   
-    function fund
+
+
+    /**
+     *  @dev Transfers eligible payout funds to insuree
+     *
+    */
+    function pay
+                            (address user
+                            )
+                            external
+                            requireContractOwner
+                            requireRegisteredUser(user)
+                            requireIsOperational
+    {
+        address payable addressTo = payable(user);
+        addressTo.transfer(userWallets[user].getBalance());
+    }
+
+
+    function fund   
                             (   
                             )
                             public
                             payable
+                            requireIsOperational
     {
-    }
-
-    function getFlightKey
-                        (
-                            address airline,
-                            string memory flight,
-                            uint256 timestamp
-                        )
-                        pure
-                        internal
-                        returns(bytes32) 
-    {
-        return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
 
     /**
-    * @dev Fallback function for funding smart contract.
+    * @dev receive function for funding smart contract.
     *
     */
-    function() 
+    receive (     )      
                             external 
                             payable 
     {
         fund();
     }
-
+    
 
 }
 
