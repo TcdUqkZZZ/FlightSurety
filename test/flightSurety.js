@@ -76,7 +76,6 @@ contract('Flight Surety Tests', async (accounts) => {
     
     // ARRANGE
     let newAirline = accounts[2];
-    await config.flightSuretyApp.registerAirline(config.firstAirline, {from:config.owner});
 
     // ACT
     try {
