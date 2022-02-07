@@ -2,13 +2,16 @@ pragma solidity >= 0.8.0;
 import "./FlightSuretyData.sol";
 contract FlightSuretyAirlineWallet is airlineWallet{
     address owner;
-    address controller;
     uint256 private balance = 0;
    mapping(bytes32 => address[]) insurees;
 
     constructor(address _owner) {
-        controller = msg.sender;
         owner = _owner;
+    }
+
+        modifier ownerOnly(){
+        require (msg.sender == owner);
+        _;
     }
 
     function deposit(uint256 amount) external {

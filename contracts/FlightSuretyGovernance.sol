@@ -23,7 +23,7 @@ contract FlightSuretyGovernance {
         contractOwner = msg.sender;
     }
 
-    event voteCast(address airline);
+    event voteCast(address airline, address voter);
     event votePassed(address airline);
 
     function vote(address airline, address voter) external noDoubleVoting(voter){
@@ -34,7 +34,7 @@ contract FlightSuretyGovernance {
             }
         alreadyVoted[voter] = true;
         voters.push(voter);
-        emit voteCast(airline);
+        emit voteCast(airline, voter);
     } 
 
     function getResult(uint256 totalairlines) external returns(bool success, uint256 votes){
@@ -74,7 +74,7 @@ contract FlightSuretyGovernance {
             voteInProgress = true;
             currentlyVettedairline = address(0);
             voters.push(voter);
-            emit voteCast(address(0));
+            emit voteCast(address(0), voter);
         }
 
     }

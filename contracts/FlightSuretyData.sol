@@ -22,7 +22,7 @@ contract FlightSuretyData {
     /*                                       DATA VARIABLES                                     */
     /********************************************************************************************/
 
-    address private contractOwner;                                      // Account used to deploy contract
+    address private contractOwner = address(0);                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
     uint256 airlineCounter;
     mapping (address => bool) registeredAirlines;
@@ -39,12 +39,13 @@ contract FlightSuretyData {
     *      The deploying account becomes contractOwner
     */
     constructor
-                                (
+                                (address _firstAirline,
+                                 address _airlineWallet
                                 ) 
                                  
     {
-        contractOwner = msg.sender;
-        registeredAirlines[msg.sender] = true;
+        registeredAirlines[_firstAirline] = true;
+        airlineWallets[_firstAirline] = airlineWallet(_airlineWallet);
         airlineCounter = 1;
     }
 
@@ -101,11 +102,6 @@ contract FlightSuretyData {
         return operational;
     }
 
-    function flipOperational() public requireContractOwner {
-        operational = !operational;
-    }
-
-
     /**
     * @dev Sets contract operations on/off
     *
@@ -156,13 +152,6 @@ contract FlightSuretyData {
         userWallets[user] = wallet;
     } 
 
-   /**
-    * @dev Initial funding for the insurance. Unless there are too many delayed flights
-    *      resulting in insurance payouts, the contract should be self-sustaining
-    *
-    */   
-
-
     /**
      *  @dev Transfers eligible payout funds to insuree
      *
@@ -175,8 +164,7 @@ contract FlightSuretyData {
                             requireRegisteredUser(user)
                             requireIsOperational
     {
-        address payable addressTo = payable(user);
-        addressTo.transfer(userWallets[user].getBalance());
+        payable(user).transfer(userWallets[user].getBalance());
     }
 
 
@@ -189,6 +177,12 @@ contract FlightSuretyData {
     {
     }
 
+    function authorizeCaller(address caller) public{
+        require(contractOwner==address(0) 
+        || msg.sender == contractOwner,  "unauthorized");
+        contractOwner = caller;
+    }
+
     /**
     * @dev receive function for funding smart contract.
     *
@@ -199,6 +193,8 @@ contract FlightSuretyData {
     {
         fund();
     }
+
+
     
 
 }

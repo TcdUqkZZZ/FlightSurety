@@ -25,8 +25,8 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
 
     // Fees
-    uint256 private constant USER_REGISTRATION_FEE = 2 gwei;
-    uint256 private constant INSURANCE_FEE = 1 gwei;
+    uint private constant USER_REGISTRATION_FEE = 2 gwei;
+    uint private constant INSURANCE_FEE = 1 gwei;
 
     address private contractOwner;          // Account used to deploy contract
 
@@ -38,6 +38,8 @@ contract FlightSuretyApp {
     }
     mapping(bytes32 => Flight) private flights;
 
+
+    event log();
  
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -76,11 +78,15 @@ contract FlightSuretyApp {
     *
     */
     constructor
-                                (
+                                (address _dataContract,
+                                address _governanceContract
                                 ) 
                                  
     {
         contractOwner = msg.sender;
+        setDataContract(_dataContract);
+        setGovernanceContract(_governanceContract);
+
     }
 
     /********************************************************************************************/
@@ -95,8 +101,9 @@ contract FlightSuretyApp {
         return dataContract.isOperational();  // Modify to call data contract's status
     }
 
-    function setOperatingStatus() public returns(bool,uint){
-        require (dataContract.isRegisteredAirline(msg.sender));
+    function setOperatingStatus(bool mode) public returns(bool,uint){
+        require (dataContract.isRegisteredAirline(msg.sender) 
+        || contractOwner == msg.sender, "Unauthorized");
         governanceContract.voteChangeOperationalState(msg.sender);
 
         (bool result, uint256 votes)  = governanceContract
@@ -104,10 +111,18 @@ contract FlightSuretyApp {
         .getCounter());
 
         if (result) {
-            dataContract.flipOperational();
+            dataContract.setOperatingStatus(mode);
         }
         return (result, votes);
 
+    }
+
+    function setDataContract(address _dataContract) public requireContractOwner{
+        dataContract = FlightSuretyData(payable(_dataContract));
+    }
+
+    function setGovernanceContract(address _governanceContract) public requireContractOwner{
+        governanceContract = FlightSuretyGovernance(_governanceContract);
     }
 
     /********************************************************************************************/
@@ -124,9 +139,11 @@ contract FlightSuretyApp {
                             )
                             external
                             returns(bool success, uint256 _votes)
-    {   require(!dataContract.isRegisteredAirline(airline) 
-    && dataContract.isRegisteredAirline(msg.sender));
-        
+    {   require((!dataContract.isRegisteredAirline(airline) 
+    && dataContract.isRegisteredAirline(msg.sender) 
+    && dataContract.getAirlineWallet(msg.sender).getBalance() >= 10 ether)
+    || msg.sender == contractOwner );
+        emit log();
         //casts vote on governance contract, then checks result
         governanceContract.vote(airline, msg.sender);
         (bool result, uint256 votes)  = governanceContract
@@ -139,7 +156,7 @@ contract FlightSuretyApp {
         }
         return (result, votes);
     }
-
+ 
 
    /**
     * @dev Register a future flight for insuring.
@@ -153,7 +170,7 @@ contract FlightSuretyApp {
     {
         //check that msg.sender is registered airline with more than 10 funds deposited
         myWallet wallet = dataContract.getAirlineWallet(msg.sender);
-        require(dataContract.isRegisteredAirline(msg.sender) == true &&
+        require(dataContract.isRegisteredAirline(msg.sender) &&
                 wallet.getBalance() >= 10); 
         bytes32 key = getFlightKey(msg.sender, _flight , block.timestamp);
         Flight memory flight = flights[key];
