@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 
 module.exports = {
   entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
@@ -34,14 +35,24 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ 
       template: path.join(__dirname, "src/dapp/index.html")
-    })
+    }),
+
   ],
   resolve: {
-    extensions: [".js"]
+    extensions: [".js"],
+    fallback: {
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "assert": require.resolve("assert/"),
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "url": require.resolve("url/"),
+      "os": require.resolve("os-browserify/browser")
+    }
   },
   devServer: {
-    contentBase: path.join(__dirname, "dapp"),
+    static: path.join(__dirname, "dapp"),
     port: 8000,
-    stats: "minimal"
+   // stats: "minimal"
   }
 };
