@@ -6,7 +6,7 @@ const fs = require('fs');
 
 module.exports = async function(deployer) {
 
-    let firstAirline = '0x96f63275648fB5646B623dD80A32eA7EaB0cf795';
+    let firstAirline = '0xD9F53988199c82B29B67e4172302B455a8C4B834';
     let firstWallet = await deployer.deploy(FlightSuretyAirlineWallet, firstAirline);
     let dataContract = await deployer.deploy(FlightSuretyData, firstAirline, FlightSuretyAirlineWallet.address);
     let governanceContract = await deployer.deploy(FlightSuretyGovernance);
