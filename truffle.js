@@ -1,5 +1,5 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = "royal erode help left fantasy rack knock follow state outdoor mind uncover"
+var mnemonic = "tag increase combine someone sunset cargo silver bird screen winter sustain region"
 
 
 module.exports = {

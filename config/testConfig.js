@@ -2,7 +2,7 @@
 var FlightSuretyApp = artifacts.require("FlightSuretyApp");
 var FlightSuretyData = artifacts.require("FlightSuretyData");
 var FlightSuretyGovernance = artifacts.require("FlightSuretyGovernance");
-var FlightSuretyAirlineWallet = artifacts.require("FlightSuretyAirlineWallet");
+var FlightSuretyWalletFactory = artifacts.require("FlightSuretyWalletFactory");
 var BigNumber = require('bignumber.js');
 
 var Config = async function(accounts) {
@@ -10,24 +10,25 @@ var Config = async function(accounts) {
     // These test addresses are useful when you need to add
     // multiple users in test scripts
     let testAddresses = [
-        "0x32eD122e8d39363eE81f9546c74D9b3B7417e077",
-        "0xD9F53988199c82B29B67e4172302B455a8C4B834",
-        "0xA297A54bb0510dcb0B973bAdB98A2417819A233e",
-        "0xCffe2A1BBD83cb9D883247F0A84121D3088cE017",
-        "0xD229dDD948ba40620D22CeAD679a96F6bcd45b6F",
-        "0x293BC7b20217d806664Ac6cBfa9Cc24b03104Fb2",
-        "0x575529611bCFdE3311179248197911Aa5e9f68a6",
-        "0xb4260A21B18B78F6F17E7c505d77c852Ba04361C",
-        "0x66B992e89D94ffA51e90811bd27543e22dF4638a"
+        "0xe1338ce5ac4fe0a7ce5ca422542ccbd811a267d0",
+        "0x4d578b45d3d7899704186e537b01bf9d4cf772f7",
+        "0x1abf10b40736f01702af96e756d2193a38a7368e",
+        "0x6302037d1cdf13c0044b188afe2d72c55958d2f3",
+        "0x283b5c9f196786c5a0903ba37169efe310fe588e",
+        "0x95b1fc20169b16fab17b42881e90789b98c653d9",
+        "0x8c4a3bf5f0a0ba53292b2e26645d46448ac5db87",
+        "0xdd19b15e5f0d4b78da563ef2220e4c626a9a4450",
+        "0x3c5615f005abff4698d0df8f671f1ddedaef000e"
     ];
 
 
     let owner = accounts[0];
     let firstAirline = accounts[1];
-    let firstWallet = await FlightSuretyAirlineWallet.new(firstAirline);
-    let flightSuretyData = await FlightSuretyData.new(firstAirline, FlightSuretyAirlineWallet.address);
+    let walletFactory = await FlightSuretyWalletFactory.new();
+    let flightSuretyData = await FlightSuretyData.new();
     let flightSuretyGovernance = await FlightSuretyGovernance.new();
-    let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address, flightSuretyGovernance.address);
+    let flightSuretyApp = await FlightSuretyApp.new();
+
 
 
     
@@ -38,7 +39,8 @@ var Config = async function(accounts) {
         testAddresses: testAddresses,
         flightSuretyData: flightSuretyData,
         flightSuretyApp: flightSuretyApp,
-        flightSuretyGovernance : flightSuretyGovernance
+        flightSuretyGovernance : flightSuretyGovernance,
+        walletFactory : walletFactory
     }
 }
 

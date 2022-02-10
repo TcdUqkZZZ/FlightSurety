@@ -53,4 +53,32 @@ export default class Contract {
                 callback(error, payload);
             });
     }
+
+    registerUser(amount) {
+        let self = this;
+        self.flightSuretyApp.methods
+        .registerUser().send({from: self.owner, amount: amount}, (err, res) => {
+            callback(error, amount);
+        });
+    }
+
+    buy(flightKey, amount) {
+        let self = this;
+
+        self.flightSuretyApp.methods
+        .buy(flightKey)
+        .send({from: self.owner, amount: amount}, (err,res) => {
+            callback(err, flightKey);
+        });
+
+    }
+
+    payout() {
+        let self = this;
+
+        self.flightSuretyApp.methods
+        .payOut({from: self.owner}, (err,res)=> {
+            callback(err, self.owner);
+        });
+    }
 }

@@ -84,3 +84,32 @@ contract FlightSuretyUserWallet is userWallet {
 
 }
 
+    contract FlightSuretyWalletFactory {
+        event userWalletCreated(address user);
+        event airlineWalletCreated(address airline);
+        mapping(address => airlineWallet) airlineWallets;
+        mapping(address => userWallet) userWallets;
+
+        function createUserWallet(address user) external returns (userWallet){
+            userWallet wallet = new FlightSuretyUserWallet(user);
+            userWallets[user] = wallet;
+            emit userWalletCreated(user);
+            return wallet;
+        }
+
+        function createAirlineWallet(address airline) external returns (airlineWallet){
+            airlineWallet wallet = new FlightSuretyAirlineWallet(airline);
+            airlineWallets[airline] = wallet;
+            emit airlineWalletCreated(airline);
+            return wallet;
+        }
+
+        function getUserWallet(address user) external view returns (userWallet){
+            return userWallets[user];
+        }
+
+        function getAirlineWallet(address airline) external view returns (airlineWallet) {
+            return airlineWallets[airline];
+        }
+    }
+

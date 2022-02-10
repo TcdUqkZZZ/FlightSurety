@@ -16,6 +16,7 @@ contract FlightSuretyApp {
 
     FlightSuretyData private dataContract;
     FlightSuretyGovernance private governanceContract;
+    FlightSuretyWalletFactory private walletFactory;
     // Flight status codees
     uint8 private constant STATUS_CODE_UNKNOWN = 0;
     uint8 private constant STATUS_CODE_ON_TIME = 10;
@@ -23,11 +24,11 @@ contract FlightSuretyApp {
     uint8 private constant STATUS_CODE_LATE_WEATHER = 30;
     uint8 private constant STATUS_CODE_LATE_TECHNICAL = 40;
     uint8 private constant STATUS_CODE_LATE_OTHER = 50;
+    bool  private initialized = false;
 
     // Fees
     uint private constant USER_REGISTRATION_FEE = 2 gwei;
     uint private constant INSURANCE_FEE = 1 gwei;
-
     address private contractOwner;          // Account used to deploy contract
 
     struct Flight {
@@ -40,6 +41,10 @@ contract FlightSuretyApp {
 
 
     event log();
+    event changedDataContract( address newAddress);
+    event changedGovernanceContract( address newAddress);
+    event changedWalletContract( address newAddress);
+    event insuranceBought(address user, uint amount, bytes32 flightKey, address airline);
  
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -78,16 +83,28 @@ contract FlightSuretyApp {
     *
     */
     constructor
-                                (address _dataContract,
-                                address _governanceContract
+                                (
                                 ) 
                                  
     {
         contractOwner = msg.sender;
+      
+    }
+
+    function init(address _dataContract,
+                    address _governanceContract,
+                    address _walletFactory,
+                    address firstAirlineAddress
+                                )  public requireContractOwner
+
+    {require(!initialized);
         setDataContract(_dataContract);
         setGovernanceContract(_governanceContract);
-
-    }
+        setWalletFactory(_walletFactory);
+        initialized = true;
+        dataContract.init(firstAirlineAddress,
+         walletFactory.createAirlineWallet(firstAirlineAddress));
+        }
 
     /********************************************************************************************/
     /*                                       UTILITY FUNCTIONS                                  */
@@ -118,11 +135,19 @@ contract FlightSuretyApp {
     }
 
     function setDataContract(address _dataContract) public requireContractOwner{
+
         dataContract = FlightSuretyData(payable(_dataContract));
+        emit changedDataContract(_dataContract);
     }
 
     function setGovernanceContract(address _governanceContract) public requireContractOwner{
         governanceContract = FlightSuretyGovernance(_governanceContract);
+        emit changedGovernanceContract(_governanceContract);
+    }
+
+    function setWalletFactory(address _walletFactory) public requireContractOwner {
+        walletFactory = FlightSuretyWalletFactory(_walletFactory);
+        emit changedWalletContract(_walletFactory);
     }
 
     /********************************************************************************************/
@@ -151,7 +176,7 @@ contract FlightSuretyApp {
         .getCounter());
         if (result){
             //if vote passed, register new airline with corresponding wallet in data contract
-            airlineWallet wallet = new FlightSuretyAirlineWallet(airline);
+            airlineWallet wallet = walletFactory.createAirlineWallet(msg.sender);        
             dataContract.addAirline(airline, wallet);
         }
         return (result, votes);
@@ -207,7 +232,7 @@ contract FlightSuretyApp {
     function registerUser() external payable{
         require(!dataContract.isRegisteredUser(msg.sender), "user already registered");
         require(msg.value > USER_REGISTRATION_FEE);
-        userWallet wallet = new FlightSuretyUserWallet(msg.sender);
+        userWallet wallet = walletFactory.createUserWallet(msg.sender);
         wallet.deposit(msg.value - USER_REGISTRATION_FEE);
         dataContract.addUser(msg.sender, wallet);
         _fundDataContract(msg.value - USER_REGISTRATION_FEE);
@@ -236,6 +261,7 @@ contract FlightSuretyApp {
             .addInsuree(msg.sender, flightKey);
 
             _fundDataContract(msg.value - INSURANCE_FEE);
+            emit insuranceBought(msg.sender, msg.value, flightKey, airline);
     }
 
     /**
@@ -334,7 +360,7 @@ contract FlightSuretyApp {
     event FlightStatusInfo(address airline, string flight, uint256 timestamp, uint8 status);
 
     event OracleReport(address airline, string flight, uint256 timestamp, uint8 status);
-
+    event OracleRegistered(address oracle);
     // Event fired when flight status request is submitted
     // Oracles track this and if they have a matching index
     // they fetch data and submit a response
@@ -352,11 +378,16 @@ contract FlightSuretyApp {
         require(msg.value >= REGISTRATION_FEE, "Registration fee is required");
 
         uint8[3] memory indexes = generateIndexes(msg.sender);
+        Oracle memory newOracle = Oracle({
+            isRegistered: true,
+            indexes: indexes
+        });
 
-        oracles[msg.sender] = Oracle({
-                                        isRegistered: true,
-                                        indexes: indexes
-                                    });
+        oracles[msg.sender] = newOracle;
+        
+        emit OracleRegistered(msg.sender);
+
+
     }
 
     function getMyIndexes
@@ -388,7 +419,9 @@ contract FlightSuretyApp {
                         )
                         external
     {
-        require((oracles[msg.sender].indexes[0] == index) || (oracles[msg.sender].indexes[1] == index) || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
+        require((oracles[msg.sender].indexes[0] == index) 
+        || (oracles[msg.sender].indexes[1] == index) 
+        || (oracles[msg.sender].indexes[2] == index), "Index does not match oracle request");
 
 
         bytes32 key = keccak256(abi.encodePacked(index, airline, flight, timestamp)); 

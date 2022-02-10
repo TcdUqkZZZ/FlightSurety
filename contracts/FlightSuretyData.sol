@@ -29,6 +29,7 @@ contract FlightSuretyData {
     mapping (address => bool) registeredUsers;
     mapping (address => airlineWallet) airlineWallets;
     mapping (address => userWallet) userWallets;
+    bool initialized = false;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -39,15 +40,21 @@ contract FlightSuretyData {
     *      The deploying account becomes contractOwner
     */
     constructor
-                                (address _firstAirline,
-                                 address _airlineWallet
+                                (
                                 ) 
                                  
     {
-        registeredAirlines[_firstAirline] = true;
-        airlineWallets[_firstAirline] = airlineWallet(_airlineWallet);
-        airlineCounter = 1;
+        contractOwner = msg.sender;
+
     }
+
+    function init(address firstAirline, airlineWallet firstAirlineWallet) external requireContractOwner {
+        require(!initialized);
+        addAirline(firstAirline, firstAirlineWallet);
+        initialized = true;
+    }
+
+
 
 
     function getCounter() public view returns (uint256) {
@@ -178,8 +185,7 @@ contract FlightSuretyData {
     }
 
     function authorizeCaller(address caller) public{
-        require(contractOwner==address(0) 
-        || msg.sender == contractOwner,  "unauthorized");
+        require(msg.sender == contractOwner,  "unauthorized");
         contractOwner = caller;
     }
 

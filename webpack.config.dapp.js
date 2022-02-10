@@ -36,11 +36,16 @@ module.exports = {
     new HtmlWebpackPlugin({ 
       template: path.join(__dirname, "src/dapp/index.html")
     }),
-
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      DEBUG: true})
+    
+    
   ],
   resolve: {
     extensions: [".js"],
     fallback: {
+      "util" : require.resolve("util/"),
       "crypto": require.resolve("crypto-browserify"),
       "stream": require.resolve("stream-browserify"),
       "assert": require.resolve("assert/"),
@@ -53,6 +58,11 @@ module.exports = {
   devServer: {
     static: path.join(__dirname, "dapp"),
     port: 8000,
-   // stats: "minimal"
+    devMiddleware: {
+    stats: {
+      children: true,
+      errorDetails: true
+    }
+  }
   }
 };
