@@ -191,6 +191,7 @@ contract FlightSuretyApp {
                                 (string memory _flight
                                 )
                                 external
+                                returns(bytes32)
                                 
     {
         //check that msg.sender is registered airline with more than 10 funds deposited
@@ -204,6 +205,7 @@ contract FlightSuretyApp {
         flight.updatedTimestamp = block.timestamp;
         flight.airline = msg.sender;
         flights[key] = flight;
+        return key;
     }
 
     function _getFlightKey(uint256 flightNo) private pure returns(bytes32){
@@ -217,13 +219,21 @@ contract FlightSuretyApp {
     function processFlightStatus
                                 (
                                     address airline,
-                                    string memory flight,
+                                    string memory _flight,
                                     uint256 timestamp,
                                     uint8 statusCode
                                 )
                                 internal
-                                pure
+                                
     {
+        bytes32 key = getFlightKey(airline, _flight, timestamp);
+        Flight storage flight = flights[key];
+        require(flight.isRegistered);
+
+        flight.statusCode = statusCode;
+        flight.updatedTimestamp = timestamp;
+        flights[key] = flight;
+
     }
 
     /**
@@ -378,12 +388,12 @@ contract FlightSuretyApp {
         require(msg.value >= REGISTRATION_FEE, "Registration fee is required");
 
         uint8[3] memory indexes = generateIndexes(msg.sender);
-        Oracle memory newOracle = Oracle({
-            isRegistered: true,
-            indexes: indexes
-        });
+        Oracle storage thisOracle = oracles[msg.sender];
 
-        oracles[msg.sender] = newOracle;
+        thisOracle.isRegistered = true;
+        thisOracle.indexes = indexes;
+
+        oracles[msg.sender] = thisOracle;
         
         emit OracleRegistered(msg.sender);
 

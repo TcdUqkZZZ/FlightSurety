@@ -6,6 +6,7 @@ const StartServerPlugin = require('start-server-nestjs-webpack-plugin')
 module.exports = {
     entry: [
         'webpack/hot/poll?1000',
+        'regenerator-runtime/runtime.js',
         './src/server/index'
     ],
     watch: true,

@@ -40,7 +40,7 @@ contract FlightSuretyAirlineWallet is airlineWallet{
 }
 
 contract FlightSuretyUserWallet is userWallet {
-        address owner;
+    address owner;
     address controller;
     uint256 private balance = 0;
     mapping(bytes32 => uint256) insuredFlights;
@@ -69,7 +69,7 @@ contract FlightSuretyUserWallet is userWallet {
     }
 
     function insure(uint256 amount, bytes32 flightKey) external controllerOnly{
-        require(balance>=amount, "not enough balance");
+        require(balance>=amount, "not enough balance in account");
         balance -= amount;
         insuredFlights[flightKey] += amount;
     }

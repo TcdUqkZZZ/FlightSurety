@@ -12,6 +12,7 @@ export default class Contract {
         this.owner = null;
         this.airlines = [];
         this.passengers = [];
+        this.flights = [];
     }
 
     initialize(callback) {

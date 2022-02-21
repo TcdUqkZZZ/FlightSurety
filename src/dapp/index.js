@@ -55,6 +55,13 @@ function display(title, description, results) {
     })
     displayDiv.append(section);
 
+    function showFlight(flight, airlineName) {
+        var showCase = DOM.elid('flight-showcase');
+        let section = DOM.section();
+        section.appendChild(DOM.h2(flight));
+        section.appendChild(dom.h4(airlineName));
+    }
+
 }
 
 

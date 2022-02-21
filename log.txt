@@ -1,0 +1,393 @@
+
+> flightsurety@1.0.1 server
+> rm -rf ./build/server && webpack --config webpack.config.server.js
+
+asset server.js 21 KiB [emitted] [compared for emit] [minimized] (name: main)
+runtime modules 23.3 KiB 9 modules
+orphan modules 951 KiB [orphan] 5 modules
+built modules 966 KiB [built]
+  modules by path ./ 966 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 962 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 962 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 1319 ms
+belandi ragassi
+[
+  '0xA6eE2bE33A85C6dBfD6C8fEef8184dD28a14ccd4',
+  '0x54b1Fb418F3E5361D53e7B0Cecf60EF258DE6622',
+  '0xe805A8551bfe022ff8542c47eCB2EBe0f7343976',
+  '0xc2C0C25ff3B65D658691F165BF2764d43D268cE8',
+  '0x53514007c188079ebAF6016C149f786f3E602Ba2',
+  '0xa57c128417b3f889f214A2c63A169D1560d80415',
+  '0x59764ea4508A6C3136e2C2B09F555153Ab178917',
+  '0x1AA5458b1d300eb06974e08b01787412ff2c4db9',
+  '0x207853ed494cAcB4940a16A98C9b618Cb8A154D1',
+  '0xfC683C71185dF8242c0548d45B8FE2a0BC95f316',
+  '0x50071d81bCe94c20192375A68Fa13716A58BeA1A',
+  '0x1fC773d9564c21cFbA3AE0b433140Af4Ff6C9A7c',
+  '0xe8437a24288F69487732E2a75C11Fe12618C8ff0',
+  '0x9cc03baf506B7031626cb32042eCD17067b14bBD',
+  '0xFB32f2A5B06C8D23EdE168cf2056dbb03CEA535e',
+  '0x9552393B979ab345FB65F998336c506d688F4Cf3',
+  '0x9f3F0b55FB02F503087cbd296B2ec36A7Cd6E305',
+  '0x067C336ADda1976Fb2081C98f276bd735E50E9B3',
+  '0x4837D3Bf149a9681cD2e37aD3728ED4C0Eb2888a',
+  '0x5b6b3163CBD1b67F74DB87a512cAa4AFf557A0b3',
+  '0x6700E8E3cB46768D139c502E7D59Ef7984fE3C80',
+  '0x16916c06261dE45ebeD3076E7167178171a6FA58',
+  '0x8990d99D994217dDE4522069230F613B59D5EAEd',
+  '0x82E267cfe830D79323a915155bC78C729158De3d',
+  '0x4bA740834F4136B901d3Ea27AF5E7E046d3C965a',
+  '0xB1A643B707E894ecDBc758071051e55A2AC67930',
+  '0x9662D70f7851d8fd7F274153a0C52e4e3854b010',
+  '0x73ac1Dc2E8B6b182fb0C9C08ddBCe1ca9Ba1176B',
+  '0x9ac082536FaA9f71378faC996D164EA5d99aF09f',
+  '0x172dAC86E24926E1295723E39967F235aafE2a5a'
+]
+[
+  '0x1AA5458b1d300eb06974e08b01787412ff2c4db9',
+  '0x207853ed494cAcB4940a16A98C9b618Cb8A154D1',
+  '0xfC683C71185dF8242c0548d45B8FE2a0BC95f316',
+  '0x50071d81bCe94c20192375A68Fa13716A58BeA1A',
+  '0x1fC773d9564c21cFbA3AE0b433140Af4Ff6C9A7c',
+  '0xe8437a24288F69487732E2a75C11Fe12618C8ff0',
+  '0x9cc03baf506B7031626cb32042eCD17067b14bBD',
+  '0xFB32f2A5B06C8D23EdE168cf2056dbb03CEA535e',
+  '0x9552393B979ab345FB65F998336c506d688F4Cf3',
+  '0x9f3F0b55FB02F503087cbd296B2ec36A7Cd6E305',
+  '0x067C336ADda1976Fb2081C98f276bd735E50E9B3',
+  '0x4837D3Bf149a9681cD2e37aD3728ED4C0Eb2888a',
+  '0x5b6b3163CBD1b67F74DB87a512cAa4AFf557A0b3',
+  '0x6700E8E3cB46768D139c502E7D59Ef7984fE3C80',
+  '0x16916c06261dE45ebeD3076E7167178171a6FA58',
+  '0x8990d99D994217dDE4522069230F613B59D5EAEd',
+  '0x82E267cfe830D79323a915155bC78C729158De3d',
+  '0x4bA740834F4136B901d3Ea27AF5E7E046d3C965a',
+  '0xB1A643B707E894ecDBc758071051e55A2AC67930',
+  '0x9662D70f7851d8fd7F274153a0C52e4e3854b010'
+]
+oracle array acquired
+checkpoint 1
+belandi ragassi
+
+> flightsurety@1.0.1 server
+> rm -rf ./build/server && webpack --config webpack.config.server.js
+
+asset server.js 21 KiB [emitted] [compared for emit] [minimized] (name: main)
+runtime modules 23.3 KiB 9 modules
+orphan modules 954 KiB [orphan] 5 modules
+built modules 969 KiB [built]
+  modules by path ./ 969 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 965 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 965 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 1242 ms
+belandi ragassi
+asset server.js 21 KiB [emitted] [minimized] (name: main)
+asset 179.bb322739e6d9ca2d10f4.hot-update.js 9.97 KiB [emitted] [immutable] [hmr] [minimized] (name: main)
+asset main.bb322739e6d9ca2d10f4.hot-update.json 25 bytes [emitted] [immutable] [hmr]
+Entrypoint main 31 KiB = server.js 21 KiB 179.bb322739e6d9ca2d10f4.hot-update.js 9.97 KiB
+runtime modules 23.3 KiB 9 modules
+orphan modules 954 KiB [orphan] 5 modules
+built modules 969 KiB [built]
+  modules by path ./ 969 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 965 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 965 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 851 ms
+belandi ragassi
+[HMR] Updated modules:
+[HMR]  - 767
+[HMR] Update applied.
+[
+  '0xDc8C885918Cd19426DB72aA4cb3C94F1E2AFC252',
+  '0xdEE6b1E6600415eF5e34cac65925821af2686eCc',
+  '0xfDd7B1FA1db009DB767E968572ee9f87dE676C53',
+  '0x71F579310278636dAC46fA1ea6C3a7914488c648',
+  '0x6088Ea28d4FD4E62E0493b9c16EfC91819012688',
+  '0x5D8B050A3FB0415d1FbAeE7f68b43676bdB39d18',
+  '0x7E446086Ee21F715781fc05d6A719A0299E8e2bA',
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6',
+  '0x012331f8Dd85FDDc8d4F7080309283Cd4b7252c7',
+  '0x1b80be7cfFE634De21ce6fE090C592D11674A7c0',
+  '0xE70eDa81E0a88CCbdc9c73D517f11cfB3Ede404C'
+]
+[
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6'
+]
+oracle array acquired
+checkpoint 1
+
+> flightsurety@1.0.1 server
+> rm -rf ./build/server && webpack --config webpack.config.server.js
+
+asset server.js 21 KiB [emitted] [compared for emit] [minimized] (name: main)
+runtime modules 23.3 KiB 9 modules
+orphan modules 954 KiB [orphan] 5 modules
+built modules 969 KiB [built]
+  modules by path ./ 969 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 965 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 965 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 1206 ms
+belandi ragassi
+[
+  '0xDc8C885918Cd19426DB72aA4cb3C94F1E2AFC252',
+  '0xdEE6b1E6600415eF5e34cac65925821af2686eCc',
+  '0xfDd7B1FA1db009DB767E968572ee9f87dE676C53',
+  '0x71F579310278636dAC46fA1ea6C3a7914488c648',
+  '0x6088Ea28d4FD4E62E0493b9c16EfC91819012688',
+  '0x5D8B050A3FB0415d1FbAeE7f68b43676bdB39d18',
+  '0x7E446086Ee21F715781fc05d6A719A0299E8e2bA',
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6',
+  '0x012331f8Dd85FDDc8d4F7080309283Cd4b7252c7',
+  '0x1b80be7cfFE634De21ce6fE090C592D11674A7c0',
+  '0xE70eDa81E0a88CCbdc9c73D517f11cfB3Ede404C'
+]
+[
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6'
+]
+oracle array acquired
+checkpoint 1
+belandi ragassi
+
+> flightsurety@1.0.1 server
+> rm -rf ./build/server && webpack --config webpack.config.server.js
+
+asset server.js 21.1 KiB [emitted] [compared for emit] [minimized] (name: main)
+runtime modules 23.3 KiB 9 modules
+orphan modules 954 KiB [orphan] 5 modules
+built modules 969 KiB [built]
+  modules by path ./ 969 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 965 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 965 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 1296 ms
+belandi ragassi
+[
+  '0xDc8C885918Cd19426DB72aA4cb3C94F1E2AFC252',
+  '0xdEE6b1E6600415eF5e34cac65925821af2686eCc',
+  '0xfDd7B1FA1db009DB767E968572ee9f87dE676C53',
+  '0x71F579310278636dAC46fA1ea6C3a7914488c648',
+  '0x6088Ea28d4FD4E62E0493b9c16EfC91819012688',
+  '0x5D8B050A3FB0415d1FbAeE7f68b43676bdB39d18',
+  '0x7E446086Ee21F715781fc05d6A719A0299E8e2bA',
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6',
+  '0x012331f8Dd85FDDc8d4F7080309283Cd4b7252c7',
+  '0x1b80be7cfFE634De21ce6fE090C592D11674A7c0',
+  '0xE70eDa81E0a88CCbdc9c73D517f11cfB3Ede404C'
+]
+[
+  '0x1E6849fdCe5028dfc1372095956BfE9eA6360B8f',
+  '0x48B210Cf9093D278dD671517834849A6FD22D433',
+  '0xca4068c5c53f58aA2da82057C042c81093062ADe',
+  '0xAe172BB29De64389Bc2c24Df385E0A56686cFA8f',
+  '0x75De68b18501b2951f7505d80009039e174352cc',
+  '0x4982Ad6D115C361dbf97DfC2B74f45D9F068f7d5',
+  '0x42d1C9b87fFE7e544A4551713f4318d0F050677d',
+  '0xF5FBBea06E89B6E42DEb025e23aB2e60439c6EE2',
+  '0x52B6e585409f24C6d0062c6Fd24C6d8B829f7742',
+  '0xEB7b4ECB08735162912713f4Cc9AB8A97D9eE970',
+  '0x36F236631011981B0d94dC57B6B42C5f9bb4e9eF',
+  '0xD6e0c6c3D8aa1f8DF5c0409A43aff9e5A2A98614',
+  '0x810eE6f35a156777B3804B036ABD5cFf5D9f5824',
+  '0x883A91E4ABb5c1016476F6315d8BfD7431d18b14',
+  '0xA8c657632D040bbBde976edc3552F770114d6544',
+  '0xe18C441A5868CE54b07DC2c25C1aa9b402daA934',
+  '0x4d549B09336BCeDEa613AC4d8Abbd01CB514691E',
+  '0x45529CFE662e7B446fF94a6Dc85aA9cc362bD13f',
+  '0x9a08887994303B70981Fe7D3a2efdE2d183Cb463',
+  '0x9342AB6373f01B06B95BD69590cD2095a26b08E6'
+]
+oracle array acquired
+checkpoint 1
+checkpoint 2
+checkpoint 1
+oracle undefined registered
+oracle undefined registered
+checkpoint 2
+checkpoint 1
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+checkpoint 2
+checkpoint 1
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+checkpoint 2
+checkpoint 1
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+checkpoint 2
+checkpoint 1
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
+oracle undefined registered
