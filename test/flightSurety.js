@@ -1,6 +1,7 @@
 
 var Test = require('../config/testConfig.js');
 var BigNumber = require('bignumber.js');
+const { Config } = require('../config/testConfig.js');
 
 contract('Flight Surety Tests', async (accounts) => {
 
@@ -8,6 +9,7 @@ contract('Flight Surety Tests', async (accounts) => {
   before('setup contract', async () => {
     config = await Test.Config(accounts);
     await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
+    await config.walletFactory.authorizeCaller(config.flightSuretyApp.address)
     await config.flightSuretyApp.init(config.flightSuretyData.address, config.flightSuretyGovernance.address,
         config.walletFactory.address,
         config.firstAirline)
@@ -47,10 +49,11 @@ contract('Flight Surety Tests', async (accounts) => {
       let accessDenied = false;
       try 
       {
-          await config.flightSuretyApp.setOperatingStatus(false);
+          await config.flightSuretyApp.setOperatingStatus(false,{from:config.owner} );
       }
       catch(e) {
           accessDenied = true;
+          console.log(e)
       }
       assert.equal(accessDenied, false, "Access not restricted to Contract Owner");
       

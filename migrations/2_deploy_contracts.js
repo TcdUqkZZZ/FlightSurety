@@ -14,6 +14,7 @@ module.exports = async function(deployer) {
      await deployer.deploy(FlightSuretyGovernance);
     let dataContract = await FlightSuretyData.deployed();
     await dataContract.authorizeCaller(FlightSuretyApp.address);
+    await walletFactory.authorizeCaller(FlightSuretyApp.address);
     let appContract = await FlightSuretyApp.deployed();
     await appContract.init(FlightSuretyData.address, FlightSuretyGovernance.address, walletFactory.address, firstAirline);
 

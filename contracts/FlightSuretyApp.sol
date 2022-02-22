@@ -119,19 +119,26 @@ contract FlightSuretyApp {
     }
 
     function setOperatingStatus(bool mode) public returns(bool,uint){
-        require (dataContract.isRegisteredAirline(msg.sender) 
-        || contractOwner == msg.sender, "Unauthorized");
-        governanceContract.voteChangeOperationalState(msg.sender);
+        bool isAirline = dataContract.isRegisteredAirline(msg.sender) ;
+        bool isOwner = contractOwner == msg.sender;
+        require (isAirline || isOwner , "Unauthorized");
+        if (isAirline){
+            governanceContract.voteChangeOperationalState(msg.sender);
 
-        (bool result, uint256 votes)  = governanceContract
-        .getResult(dataContract
-        .getCounter());
+            (bool result, uint256 votes)  = governanceContract
+            .getResult(dataContract
+            .getCounter());
 
-        if (result) {
-            dataContract.setOperatingStatus(mode);
+            if (result) {
+                dataContract.setOperatingStatus(mode);
+            }
+            return (result, votes);
         }
-        return (result, votes);
-
+    
+        else {
+            dataContract.setOperatingStatus(mode);
+            return(true, 0);
+        }
     }
 
     function setDataContract(address _dataContract) public requireContractOwner{
@@ -242,8 +249,8 @@ contract FlightSuretyApp {
     function registerUser() external payable{
         require(!dataContract.isRegisteredUser(msg.sender), "user already registered");
         require(msg.value > USER_REGISTRATION_FEE);
-        userWallet wallet = walletFactory.createUserWallet(msg.sender);
-        wallet.deposit(msg.value - USER_REGISTRATION_FEE);
+        userWallet wallet  = walletFactory.createUserWallet(msg.sender);
+        payable(address(wallet)).transfer(msg.value - USER_REGISTRATION_FEE);
         dataContract.addUser(msg.sender, wallet);
         _fundDataContract(msg.value - USER_REGISTRATION_FEE);
     }
@@ -262,7 +269,7 @@ contract FlightSuretyApp {
             require((1 ether >= msg.value) && (msg.value > INSURANCE_FEE));
 
             userWallet wallet = dataContract.getUserWallet(msg.sender);
-            wallet.deposit(msg.value - INSURANCE_FEE);
+            payable(address(wallet)).transfer(msg.value - INSURANCE_FEE);
             wallet.insure(msg.value - INSURANCE_FEE, flightKey);
             Flight memory flight = flights[flightKey];
             address airline = flight.airline;
@@ -293,7 +300,7 @@ contract FlightSuretyApp {
 
             uint256 amount  = Uwallet.getInsuredFlight(flightKey) / 2 * 3;
             
-            Uwallet.deposit(amount);
+            payable(address(Uwallet)).transfer(amount);
             paidOut += amount;
             Uwallet.clear(flightKey);
 

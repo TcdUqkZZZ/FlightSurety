@@ -14,7 +14,7 @@ contract FlightSuretyAirlineWallet is airlineWallet{
         _;
     }
 
-    function deposit(uint256 amount) external {
+    function deposit(uint256 amount) internal{
         balance += amount;
     }
 
@@ -35,6 +35,10 @@ contract FlightSuretyAirlineWallet is airlineWallet{
 
     function withdraw(uint256 amount) external {
         balance -= amount;
+    }
+
+    receive() external payable ownerOnly {
+        deposit(msg.value);
     }
     
 }
@@ -60,7 +64,7 @@ contract FlightSuretyUserWallet is userWallet {
         owner = _owner;
     }
 
-    function deposit(uint256 amount) external {
+    function deposit(uint256 amount) internal {
         balance += amount;
     }
 
@@ -78,8 +82,12 @@ contract FlightSuretyUserWallet is userWallet {
         return insuredFlights[flightKey];
     }
 
-    function clear(bytes32 flightKey) external {
+    function clear(bytes32 flightKey) external controllerOnly{
         insuredFlights[flightKey] = 0;
+    }
+
+        receive() external payable ownerOnly {
+        deposit(msg.value);
     }
 
 }
@@ -90,14 +98,27 @@ contract FlightSuretyUserWallet is userWallet {
         mapping(address => airlineWallet) airlineWallets;
         mapping(address => userWallet) userWallets;
 
-        function createUserWallet(address user) external returns (userWallet){
+        address owner = address(0);
+
+        function authorizeCaller(address newOwner) external{
+            require (owner == address(0) || owner == msg.sender);
+
+            owner = newOwner;
+        }
+
+        modifier ownerOnly() {
+            require (msg.sender == owner);
+            _;
+        }
+
+        function createUserWallet(address user) external ownerOnly returns (userWallet){
             userWallet wallet = new FlightSuretyUserWallet(user);
             userWallets[user] = wallet;
             emit userWalletCreated(user);
-            return wallet;
+            return wallet ;
         }
 
-        function createAirlineWallet(address airline) external returns (airlineWallet){
+        function createAirlineWallet(address airline) external  ownerOnly returns (airlineWallet){
             airlineWallet wallet = new FlightSuretyAirlineWallet(airline);
             airlineWallets[airline] = wallet;
             emit airlineWalletCreated(airline);
@@ -105,11 +126,14 @@ contract FlightSuretyUserWallet is userWallet {
         }
 
         function getUserWallet(address user) external view returns (userWallet){
-            return userWallets[user];
+            userWallet wallet = userWallets[user];
+            return wallet;
         }
 
-        function getAirlineWallet(address airline) external view returns (airlineWallet) {
-            return airlineWallets[airline];
-        }
+        function getAirlineWallet(address airline) external view returns (airlineWallet ){
+            airlineWallet wallet = airlineWallets[airline];
+
+            return wallet;
+    
     }
-
+    }
