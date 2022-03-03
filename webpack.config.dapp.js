@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 
 module.exports = {
-  mode: 'development',
   entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
   output: {
     path: path.join(__dirname, "prod/dapp"),

@@ -6,7 +6,6 @@ import './flightsurety.css';
 
 (async() => {
 
-    let result = null;
 
     let contract = new Contract('localhost', () => {
 
@@ -40,17 +39,17 @@ import './flightsurety.css';
             });
         });
 
-        /*
+        
         DOM.elid('get-payout').addEventListener('click', () => {
             let flight = DOM.elid('flight-number').value;
             let payout = contract.payout(flight) 
                 if (payout) {
                     
-                    display('Payout', 'awarded', [{label = `Cashed ${payout} in insurance payour for flight ${flight}`}])
+                    display('Payout', 'Awarded', [{label: `Cashed ${payout} in insurance payour for flight ${flight}`}])
                 }
             } )
          
-*/
+
       
     });
     
