@@ -55,17 +55,18 @@ async function getOracles() {
 }
 
 async function startOracles(oracles){
-
-  let registrationFee = web3.utils.toWei('1');
-  for(const oracle of oracles) {
-     await 
+  let registrationFee = await flightSuretyApp.methods.REGISTRATION_FEE().call();
+  for (const oracle of oracles) {
+    console.log('we')
+    
+   await   
       flightSuretyApp.methods.registerOracle().send({
       from: oracle,
       value: registrationFee,
       gas: 6721975,
-      price: 20000000000
+      price: 200000000
     })
-
+       
     flightSuretyApp.once('OracleRegistered', (err, event) => {
       console.log(`oracle ${event.returnValues.oracle} registered`)
     })
@@ -76,6 +77,7 @@ async function startOracles(oracles){
 
 
  async function getIndices() {
+   console.log('sugo')
   for (const oracle of oracles) {
     try {
       let thisIndices = await flightSuretyApp.methods.getMyIndexes().call({from: oracle});
@@ -140,7 +142,6 @@ getOracles()
 })
 
 
-console.log('belandi ragassi')
 
 
  

@@ -169,8 +169,11 @@ contract FlightSuretyData {
                             requireContractOwner
                             requireRegisteredUser(user)
                             requireIsOperational
+                            returns(uint)
     {
-        payable(user).transfer(userWallets[user].getBalance());
+        uint balance = userWallets[user].getBalance();
+        payable(user).transfer(balance);
+        return balance;
     }
 
 

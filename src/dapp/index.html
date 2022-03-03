@@ -5,15 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FlightSurety</title>
+    <link href="flightsurety.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./flightsurety.css" rel="stylesheet" type="text/css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark static-top">
         <a class="navbar-brand" href="#">FlightSurety</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -21,13 +21,29 @@
         </button>
     </nav>
 
+
     <main class="container">
-        <div id="display-wrapper" class="top-20">
+        <div id="display-wrapper" class="top-20" > 
         </div>
         <div class="row top-20">
-            <label class="form">Flight</label> <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+            <label class="form">Flight</label> 
+            <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+            <br>
+            <btn class="btn btn-primary" id="buy-insurance">Buy insurance</btn>
+            <btn class="btn btn-primary" id="register-flight">register flight</btn>
+            <btn class="btn btn-primary" id="query-oracles">query oracles</btn>
+            <btn class="btn btn-primary" id="get-payout">get Payout</btn>
+
+
+
         </div>
+
+        <div class ="row top-20">
+            </button>
+        </div>
+
     </main>
+
 
 
 

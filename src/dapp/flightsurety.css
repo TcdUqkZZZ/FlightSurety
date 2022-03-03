@@ -2,6 +2,8 @@ body {
     background-image: url('flight.jpg'); /* Source: iStockPhoto */
     background-repeat: no-repeat;
     background-size: cover;
+    padding-top: 65px; 
+
 }
 
 .container {
@@ -40,3 +42,4 @@ label.form {
 input {
     margin-right: 30px;
 }
+

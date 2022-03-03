@@ -287,7 +287,7 @@ contract FlightSuretyApp {
     function creditInsurees
                                 (bytes32 flightKey
                                 )
-                                external        
+                                internal        
     { 
         Flight memory flight = flights[flightKey];
         require(flight.statusCode == STATUS_CODE_LATE_AIRLINE);
@@ -309,8 +309,9 @@ contract FlightSuretyApp {
         Awallet.clear(flightKey);
     }
 
-    function payOut() external {
-        dataContract.pay(msg.sender);
+    function payOut(bytes32 flightKey) external returns (uint){
+        creditInsurees(flightKey);
+       return dataContract.pay(msg.sender);
     }
     
 

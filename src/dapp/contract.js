@@ -34,6 +34,7 @@ export default class Contract {
         });
     }
 
+
     isOperational(callback) {
        let self = this;
        self.flightSuretyApp.methods
@@ -74,12 +75,29 @@ export default class Contract {
 
     }
 
-    payout() {
+    payout(flightKey, callback) {
         let self = this;
 
-        self.flightSuretyApp.methods
-        .payOut({from: self.owner}, (err,res)=> {
-            callback(err, self.owner);
+       self.flightSuretyApp.methods
+        .payOut(flightKey).send({from: self.owner}, (err,res)=> {
+            callback(err, res);
         });
+    }
+
+
+    registerFlight(FlightNo, callback) {
+        let self = this;
+
+     self.flightSuretyApp.methods
+        .registerFlight(FlightNo)
+        .send({from: self.owner})
+        .then((err, flightKey) => {
+            callback(err, flightKey)
+        })
+
+
+
+
+
     }
 }

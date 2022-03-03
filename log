@@ -1,0 +1,107 @@
+
+> flightsurety@1.0.1 server
+> rm -rf ./build/server && webpack --config webpack.config.server.js
+
+asset server.js 21.3 KiB [emitted] [compared for emit] [minimized] (name: main)
+runtime modules 23.3 KiB 9 modules
+orphan modules 951 KiB [orphan] 5 modules
+built modules 965 KiB [built]
+  modules by path ./ 965 KiB
+    modules by path ./node_modules/webpack/hot/*.js 3.75 KiB
+      ./node_modules/webpack/hot/poll.js?1000 1.12 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log.js 1.34 KiB [built] [code generated]
+      ./node_modules/webpack/hot/log-apply-result.js 1.29 KiB [built] [code generated]
+    modules by path ./src/server/*.js 961 KiB
+      ./src/server/index.js 308 bytes [built] [code generated]
+      ./src/server/server.js + 5 modules 961 KiB [not cacheable] [built] [code generated]
+  external "regenerator-runtime/runtime.js" 42 bytes [built] [code generated]
+  external "http" 42 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.68.0 compiled with 1 warning in 1373 ms
+[
+  '0x7f27967b39137514dACD95F5CEEbB1E76B69FE7d',
+  '0xbA5Db59ea613124713086e31Bc82782459606E3F',
+  '0x51a2A963FE7B5eE0CCA9F2710559Ce144d2B87e2',
+  '0x329F40cc94794C20a66c447d9B35506B13aFa2f9',
+  '0x1305558c189d9e3bec4050d2ADf7d46b039555BA',
+  '0xAe2575fECF8C7B885229AE773aF940558FEDa9b6',
+  '0x6Eeb380e8086C95384346146eC489e981DDD4d35',
+  '0xbA6f9ec60957be8C0ba4ab10a5EdE5Db0E30f21B',
+  '0x750D79B607444547Dc917cdF664E1A27E5606b63',
+  '0x822e30BD3B12a2edB09AF8c78eE7A511DEe456aE',
+  '0x6Fe1fBcdBaBd7E6Adb3301c8E3CB588698036974',
+  '0x2A62e95B4d748054BAA9f4C45B11cC0e3A0fE01D',
+  '0xb3bD97f9b6B2d235aaF895Bd6986e5A93e9C08A4',
+  '0x18bA024d6D88D6d6Aa72647898c78BD5E1160335',
+  '0x888c1F55681a4f907789AD2329f6A3F3F0d328bB',
+  '0xDC68c663b949B6688BD97eDE3C134c723C2a735d',
+  '0xcA26961117d7D25e26a93e060b0702893741a980',
+  '0x51bA7C9c357d50274833342aD62fef46e3D9c9E0',
+  '0xe043D4E24670F8CD7fC5a17F9a6e4ffa3321caDe',
+  '0x605E0311ae9fD8f7804615C9bC14a11917A1F68A',
+  '0x8667305199A7f9B5d7a079D4afdb91dBEC8B21fB',
+  '0x3DB17A669bc2555a5Ee1EA2d1c6F0D392309B300',
+  '0x9db43b32bBAe32240e5A824FE5CB522E658DAEe9',
+  '0xe27E8f3BDedb725fe037C0F349123047C1D618A5',
+  '0xEE370E9D1e8230836C59Fd9ef7b591C106994AaC',
+  '0xbD2EE451cc8B64b17FA05695875e88A6007363b7',
+  '0x5ec27Dc978e025479dBAa74D2A848Dd31d40D770',
+  '0x1a583b86FC5214a06C7F3ff0b56d2803F6a7D0ea',
+  '0x701BBD374681cb2056f67c659160E9582deD3B4F',
+  '0xFcc8a9A081cb5bfC097A87353D40D0acF32e3Ec5'
+]
+[
+  '0xbA6f9ec60957be8C0ba4ab10a5EdE5Db0E30f21B',
+  '0x750D79B607444547Dc917cdF664E1A27E5606b63',
+  '0x822e30BD3B12a2edB09AF8c78eE7A511DEe456aE',
+  '0x6Fe1fBcdBaBd7E6Adb3301c8E3CB588698036974',
+  '0x2A62e95B4d748054BAA9f4C45B11cC0e3A0fE01D',
+  '0xb3bD97f9b6B2d235aaF895Bd6986e5A93e9C08A4',
+  '0x18bA024d6D88D6d6Aa72647898c78BD5E1160335',
+  '0x888c1F55681a4f907789AD2329f6A3F3F0d328bB',
+  '0xDC68c663b949B6688BD97eDE3C134c723C2a735d',
+  '0xcA26961117d7D25e26a93e060b0702893741a980',
+  '0x51bA7C9c357d50274833342aD62fef46e3D9c9E0',
+  '0xe043D4E24670F8CD7fC5a17F9a6e4ffa3321caDe',
+  '0x605E0311ae9fD8f7804615C9bC14a11917A1F68A',
+  '0x8667305199A7f9B5d7a079D4afdb91dBEC8B21fB',
+  '0x3DB17A669bc2555a5Ee1EA2d1c6F0D392309B300',
+  '0x9db43b32bBAe32240e5A824FE5CB522E658DAEe9',
+  '0xe27E8f3BDedb725fe037C0F349123047C1D618A5',
+  '0xEE370E9D1e8230836C59Fd9ef7b591C106994AaC',
+  '0xbD2EE451cc8B64b17FA05695875e88A6007363b7',
+  '0x5ec27Dc978e025479dBAa74D2A848Dd31d40D770'
+]
+oracle array acquired
+vediamo
+Error: Returned error: VM Exception while processing transaction: revert Not registered as an oracle
+    at Object.ErrorResponse (/home/tcdkzrz/FlightSurety/node_modules/web3-core-helpers/lib/errors.js:28:19)
+    at Object.callback (/home/tcdkzrz/FlightSurety/node_modules/web3-core-requestmanager/lib/index.js:302:36)
+    at /home/tcdkzrz/FlightSurety/node_modules/web3-providers-ws/lib/index.js:114:45
+    at Array.forEach (<anonymous>)
+    at WebsocketProvider._onMessage (/home/tcdkzrz/FlightSurety/node_modules/web3-providers-ws/lib/index.js:102:69)
+    at W3CWebSocket._dispatchEvent [as dispatchEvent] (/home/tcdkzrz/FlightSurety/node_modules/yaeti/lib/EventTarget.js:115:12)
+    at W3CWebSocket.onMessage (/home/tcdkzrz/FlightSurety/node_modules/websocket/lib/W3CWebSocket.js:234:14)
+    at WebSocketConnection.<anonymous> (/home/tcdkzrz/FlightSurety/node_modules/websocket/lib/W3CWebSocket.js:205:19)
+    at WebSocketConnection.emit (node:events:390:28)
+    at WebSocketConnection.processFrame (/home/tcdkzrz/FlightSurety/node_modules/websocket/lib/WebSocketConnection.js:554:26)
+    at /home/tcdkzrz/FlightSurety/node_modules/websocket/lib/WebSocketConnection.js:323:40
+    at processTicksAndRejections (node:internal/process/task_queues:78:11) {
+  data: {
+    '0x6e6d63a6685ac13ed942c7634cfc8fea4bb1846eab94b8ceb6b99e9167166b24': {
+      error: 'revert',
+      program_counter: 5044,
+      return: '0x08c379a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001b4e6f74207265676973746572656420617320616e206f7261636c650000000000',
+      reason: 'Not registered as an oracle'
+    },
+    stack: 'RuntimeError: VM Exception while processing transaction: revert Not registered as an oracle\n' +
+      '    at Function.RuntimeError.fromResults (/opt/ganache/resources/static/node/node_modules/ganache-core/lib/utils/runtimeerror.js:94:13)\n' +
+      '    at /opt/ganache/resources/static/node/node_modules/ganache-core/lib/blockchain_double.js:568:26',
+    name: 'RuntimeError'
+  }
+}

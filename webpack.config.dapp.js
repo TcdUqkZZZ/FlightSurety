@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'development',
   entry: ['babel-polyfill', path.join(__dirname, "src/dapp")],
   output: {
     path: path.join(__dirname, "prod/dapp"),
@@ -10,14 +11,15 @@ module.exports = {
   },
   module: {
     rules: [
+      {   
+        test: /\.css$/i,
+        use: [
+          "style-loader", "css-loader",
+        ]},
     {
         test: /\.(js|jsx)$/,
         use: "babel-loader",
         exclude: /node_modules/
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -29,6 +31,11 @@ module.exports = {
         test: /\.html$/,
         use: "html-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(js|ts)$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
       }
     ]
   },
@@ -38,7 +45,16 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      DEBUG: true})
+      DEBUG: true}),
+
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+      }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+    }),
+
+  
     
     
   ],

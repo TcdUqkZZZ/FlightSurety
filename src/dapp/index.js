@@ -15,6 +15,11 @@ import './flightsurety.css';
             console.log(error,result);
             display('Operational Status', 'Check if contract is operational', [ { label: 'Operational Status', error: error, value: result} ]);
         });
+
+        DOM.elid('register-flight').addEventListener('click', () => {
+            let  flightNo = Dom.elid('flight-number').value;
+            contract.registerFlight(flightNo);
+        })
     
 
         // User-submitted transaction
@@ -30,16 +35,27 @@ import './flightsurety.css';
             let flight = DOM.elid('flight-number').value;
             let amount = DOM.elid('amount').value;
 
-            contract.buy(flight, {value:amount}, (err,res) => {
+            contract.buy(flight, amount, (err,res) => {
                 display('Insurance', 'Bought', [{label: `Insured flight ${flight} for ${amount}`}]);
             });
-        })
+        });
 
+        /*
+        DOM.elid('get-payout').addEventListener('click', () => {
+            let flight = DOM.elid('flight-number').value;
+            let payout = contract.payout(flight) 
+                if (payout) {
+                    
+                    display('Payout', 'awarded', [{label = `Cashed ${payout} in insurance payour for flight ${flight}`}])
+                }
+            } )
+         
+*/
       
     });
     
 
-})();
+});
 
 
 function display(title, description, results) {
@@ -59,10 +75,21 @@ function display(title, description, results) {
         var showCase = DOM.elid('flight-showcase');
         let section = DOM.section();
         section.appendChild(DOM.h2(flight));
-        section.appendChild(dom.h4(airlineName));
+        section.appendChild(DOM.h4(airlineName));
     }
 
 }
+
+
+window.addEventListener("load", async function() {
+    if (window.ethereum) {
+      // use MetaMask's provider
+      console.log('ethereum ok')
+      App.web3 = new Web3(window.ethereum);
+      await window.ethereum.enable(); // get permission to access accounts
+    }
+  }
+  );
 
 
 
